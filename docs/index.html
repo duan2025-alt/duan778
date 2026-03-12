@@ -116,6 +116,14 @@
     const repo = (config.repo || '').trim();
     const branch = (config.branch || 'main').trim();
     const releaseTag = (config.releaseTag || 'materials').trim();
+    const releaseAssetMap = {
+      '劳动教育精品课程申报《幼儿游戏与指导》.zip': 'default.zip',
+      'video(7).mp4': 'video.7.mp4',
+      '照片1—2025.9.3.zip': '1.2025.9.3.zip',
+      '照片收集1.zip': '1.zip',
+      '人文学院学前教育专业自评分析报告9.12.pptx': '9.12.pptx',
+      '教学视频.mp4': 'default.mp4'
+    };
 
     function encodePath(path) {
       return String(path).split('/').map(encodeURIComponent).join('/');
@@ -127,8 +135,9 @@
     }
 
     function buildReleaseUrl(assetName) {
-      if (!repo) return '../release-assets/' + encodeURIComponent(assetName);
-      return `https://github.com/${repo}/releases/download/${encodeURIComponent(releaseTag)}/${encodeURIComponent(assetName)}`;
+      const actualAssetName = releaseAssetMap[assetName] || assetName;
+      if (!repo) return '../release-assets/' + encodeURIComponent(actualAssetName);
+      return `https://github.com/${repo}/releases/download/${encodeURIComponent(releaseTag)}/${encodeURIComponent(actualAssetName)}`;
     }
 
     function applyRemoteLinks() {
